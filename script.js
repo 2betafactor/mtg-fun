@@ -202,8 +202,17 @@ class MTGCardGenerator {
 
     updateFlavorText() {
         const flavorText = this.flavorTextArea.value.trim();
-        this.cardFlavor.textContent = flavorText;
-        this.cardFlavor.style.display = flavorText ? 'block' : 'none';
+        if (flavorText) {
+            this.cardFlavor.textContent = flavorText;
+            this.cardFlavor.style.display = 'block';
+            this.cardFlavor.style.opacity = '1';
+            this.cardFlavor.style.fontStyle = 'italic';
+        } else {
+            this.cardFlavor.textContent = 'Flavour text goes here';
+            this.cardFlavor.style.display = 'block';
+            this.cardFlavor.style.opacity = '0.5';
+            this.cardFlavor.style.fontStyle = 'italic';
+        }
     }
 
     updateCardColor() {
