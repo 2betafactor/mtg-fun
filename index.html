@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic: The Gathering Card Generator</title>
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>🎴 MTG Card Generator</h1>
+            <p>Create your own Magic: The Gathering cards</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Card Form -->
+            <div class="form-container">
+                <h2>Card Details</h2>
+                <form id="cardForm">
+                    <div class="form-group">
+                        <label for="cardName">Card Name:</label>
+                        <input type="text" id="cardName" value="Keira Vask, Architect of Orbit" maxlength="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manaCost">Mana Cost:</label>
+                        <select id="manaCost">
+                            <option value="ms-g">Green</option>
+                            <option value="ms-w">White</option>
+                            <option value="ms-u" selected>Blue</option>
+                            <option value="ms-b">Black</option>
+                            <option value="ms-r">Red</option>
+                            <option value="ms-c">Colorless</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardType">Card Type:</label>
+                        <input type="text" id="cardType" value="Legendary Enchantment" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardArt">Card Art:</label>
+                        <div class="art-input-container">
+                            <input type="url" id="cardArt" value="https://heavy-space-web-iota.vercel.app/_next/image?url=https%3A%2F%2Foqkmcyxpgybheysmvanb.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcards%2Fart%2Fff629285-eca6-4c58-95cc-9ff24af38168%2Fartwork_1750506676477.jpg&w=3840&q=75" placeholder="https://example.com/image.jpg">
+                            <div class="art-upload-section">
+                                <span class="upload-divider">OR</span>
+                                <input type="file" id="cardArtFile" accept="image/*" style="display: none;">
+                                <button type="button" id="uploadBtn" class="upload-btn">
+                                    📁 Upload Image
+                                </button>
+                                <div id="uploadStatus" class="upload-status"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardText">Card Text:</label>
+                        <textarea id="cardText" rows="4" maxlength="300">When Keira Vask enters the battlefield, look at the top three cards of your library. You may reveal an artifact, instant, or land card from among them and put it into your hand. Put the rest on the bottom of your library in any order.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="flavorText">Flavor Text:</label>
+                        <textarea id="flavorText" rows="2" maxlength="150">"Velocity is a myth. Everything moves exactly as I intend."</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setCode">Set Code:</label>
+                        <input type="text" id="setCode" value="CH1" maxlength="3">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="collectorNumber">Collector Number:</label>
+                        <input type="text" id="collectorNumber" value="14/184 R" maxlength="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="artist">Artist:</label>
+                        <input type="text" id="artist" value="Panic Timmy" maxlength="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="copyrightText">Copyright Text:</label>
+                        <input type="text" id="copyrightText" value="™ & © 2016 Whales of The South" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardColor">Card Color Theme:</label>
+                        <select id="cardColor">
+                            <option value="green" selected>Green</option>
+                            <option value="white">White</option>
+                            <option value="blue">Blue</option>
+                            <option value="black">Black</option>
+                            <option value="red">Red</option>
+                            <option value="colorless">Colorless</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardCondition">Card Condition:</label>
+                        <select id="cardCondition">
+                            <option value="mint" selected>Mint (New)</option>
+                            <option value="lightly-played">Lightly Played</option>
+                            <option value="moderately-played">Moderately Played</option>
+                            <option value="heavily-played">Heavily Played</option>
+                            <option value="damaged">Damaged</option>
+                            <option value="rusty">Rusty & Ancient</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardEffect">Special Effects:</label>
+                        <select id="cardEffect">
+                            <option value="none" selected>None (Normal)</option>
+                            <option value="foil">Foil</option>
+                            <option value="holographic">Holographic</option>
+                            <option value="rainbow">Rainbow Foil</option>
+                            <option value="etched">Etched Foil</option>
+                            <option value="textured">Textured Foil</option>
+                            <option value="galaxy">Galaxy Foil</option>
+                            <option value="prism">Prism Foil</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="downloadCard">Download Card</button>
+                        <button type="button" id="resetForm">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Card Preview -->
+            <div class="preview-container">
+                <h2>Card Preview</h2>
+                
+                <div class="card-viewport">
+                    <div class="card-container rusty" id="cardPreview">
+                    <div class="card-background">
+                        <div class="card-frame">
+                            <div class="frame-header">
+                                <h1 class="name">Oath of Nissa</h1>
+                                <i class="ms ms-g" id="mana-icon"></i>
+                            </div>
+                            
+                            <img class="frame-art" src="https://heavy-space-web-iota.vercel.app/_next/image?url=https%3A%2F%2Foqkmcyxpgybheysmvanb.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcards%2Fart%2Fff629285-eca6-4c58-95cc-9ff24af38168%2Fartwork_1750506676477.jpg&w=3840&q=75" alt="card art">
+                            
+                            <div class="frame-type-line">
+                                <h1 class="type">Legendary Enchantment</h1>
+                                <img src="https://image.ibb.co/kzaLjn/OGW_R.png" id="set-icon" alt="set-icon">
+                            </div>
+                            
+                            <div class="frame-text-box">
+                                <p class="description ftb-inner-margin">When Oath of Nissa enters the battlefield, look at the top three cards of your library. You may reveal a creature, land, or planeswalker card from among them and put it into your hand. Put the rest on the bottom of your library in any order.</p>
+                                <p class="flavour-text">"For the life of every plane, I will keep watch."</p>
+                            </div>
+                            
+                            <div class="frame-bottom-info inner-margin">
+                                <div class="fbi-left">
+                                    <p>140/184 R</p>
+                                    <p>OGW • EN Wesley Burt</p>
+                                </div>
+                                <div class="fbi-center"></div>
+                                <div class="fbi-right">
+                                    ™ & © 2016 Wizards of the Coast
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
